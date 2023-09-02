@@ -1,6 +1,7 @@
 global using WDVA_ECommerce.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using WDVA_ECommerce.Server.Data;
+global using WDVA_ECommerce.Server.Services.ProductService;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
