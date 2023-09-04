@@ -44,7 +44,7 @@ namespace WDVA_ECommerce.Server.Data
 						Id = 4,
 						Title = "Personalized Army Shadow Box",
 						Description = "The perfect gift for any military personnel, this Army Shadow Box is the perfect gift for any service member or anyone who respects those who serve us. It comes in a variety of sizes. The glass of the shadow box will be personalized with your Last Name.",
-						ImgUrl = "https://storage.googleapis.com/loveable.appspot.com/medium_Personalized_Army_Shadow_Box_371ab9833b/medium_Personalized_Army_Shadow_Box_371ab9833b.webp",
+						ImgUrl = "https://i.etsystatic.com/11053806/r/il/7cde18/2538158495/il_794xN.2538158495_jaxu.jpg",
 						Price = 35.99m,
 						CategoryId = 2,
 					},
@@ -53,7 +53,7 @@ namespace WDVA_ECommerce.Server.Data
 						Id = 5,
 						Title = "Flag Landscape Stone",
 						Description = "This is a natural-looking boulder that's shaped just for you. It's personalized so that it fits perfectly in any setting. This round stone is the perfect addition to your home’s landscaping and your front lawn.",
-						ImgUrl = "https://storage.googleapis.com/loveable.appspot.com/medium_Flag_Landscape_Stone_c3c5791a37/medium_Flag_Landscape_Stone_c3c5791a37.webp",
+						ImgUrl = "https://i.etsystatic.com/22677717/r/il/357f5e/2651467674/il_794xN.2651467674_rsw8.jpg",
 						Price = 85.99m,
 						CategoryId = 2,
 						Featured = true
@@ -91,7 +91,7 @@ namespace WDVA_ECommerce.Server.Data
 						Id = 9,
 						Title = "Soldiers Creed",
 						Description = "This is an amazing piece by the US Army about their soldier's creed! It is the perfect Christmas gift for both current army soldiers and veterans. Each of our steel pieces is carefully cut and polished and uses state-of-the-art equipment to laser etch the piece.",
-						ImgUrl = "https://storage.googleapis.com/loveable.appspot.com/medium_Soldiers_Creed_7ba30f947f/medium_Soldiers_Creed_7ba30f947f.webp",
+						ImgUrl = "https://i.etsystatic.com/11434562/r/il/25ef84/4448371220/il_794xN.4448371220_pd6o.jpg",
 						Price = 24.95m,
 						CategoryId = 3,
 					}
