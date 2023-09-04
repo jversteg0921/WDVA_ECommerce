@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WDVA_ECommerce.Server", "WDVA_ECommerce\Server\WDVA_ECommerce.Server.csproj", "{68761A28-1A6F-47D4-9920-E4B41B9555F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WDVA_ECommerce.Server", "WDVA_ECommerce\Server\WDVA_ECommerce.Server.csproj", "{68761A28-1A6F-47D4-9920-E4B41B9555F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WDVA_ECommerce.Client", "WDVA_ECommerce\Client\WDVA_ECommerce.Client.csproj", "{26811E22-5FD6-4EAA-B598-B24A1A9DF319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WDVA_ECommerce.Client", "WDVA_ECommerce\Client\WDVA_ECommerce.Client.csproj", "{26811E22-5FD6-4EAA-B598-B24A1A9DF319}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WDVA_ECommerce.Shared", "WDVA_ECommerce\Shared\WDVA_ECommerce.Shared.csproj", "{D282EE18-5ECA-44F8-863A-CCE8C719916B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WDVA_ECommerce.Shared", "WDVA_ECommerce\Shared\WDVA_ECommerce.Shared.csproj", "{D282EE18-5ECA-44F8-863A-CCE8C719916B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

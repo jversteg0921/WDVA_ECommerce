@@ -19,6 +19,7 @@ namespace WDVA_ECommerce.Server.Data
 						ImgUrl = "https://storage.googleapis.com/loveable.appspot.com/medium_Shot_Glass_Gift_b8e35cf871/medium_Shot_Glass_Gift_b8e35cf871.jpg",
 						Price = 10.99m,
 						CategoryId = 1,
+						Featured = true
 					},
 					new Product
 					{
@@ -55,6 +56,7 @@ namespace WDVA_ECommerce.Server.Data
 						ImgUrl = "https://storage.googleapis.com/loveable.appspot.com/medium_Flag_Landscape_Stone_c3c5791a37/medium_Flag_Landscape_Stone_c3c5791a37.webp",
 						Price = 85.99m,
 						CategoryId = 2,
+						Featured = true
 					},
 					new Product
 					{
@@ -73,6 +75,7 @@ namespace WDVA_ECommerce.Server.Data
 						ImgUrl = "https://storage.googleapis.com/loveable.appspot.com/medium_USMC_Pint_Glass_ff94bd4a3f/medium_USMC_Pint_Glass_ff94bd4a3f.jpg",
 						Price = 15.25m,
 						CategoryId = 1,
+						Featured = true
 					},
 					new Product
 					{
