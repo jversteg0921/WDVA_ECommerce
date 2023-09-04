@@ -1,8 +1,9 @@
 ﻿@inject IProductService ProductService
+@implements IDisposable
 
 @if(ProductService.Products == null || ProductService.Products.Count == 0)
 {
-	<span>Loading Products...</span>
+	<span>@ProductService.Message</span>
 }
 else
 {
@@ -30,12 +31,18 @@ else
 </ul>
 }
 
-@code {	
+@code {
 
-	protected override async Task OnInitializedAsync()
+	//Subscribes this component to the ProductsChanged event. Updates component when the event is invoked.
+	protected override void OnInitialized()
 	{
-		await ProductService.GetProducts();
+		ProductService.ProductsChanged += StateHasChanged;
 
+	}
+
+	public void Dispose()
+	{
+		ProductService.ProductsChanged -= StateHasChanged;
 	}
 
 }
