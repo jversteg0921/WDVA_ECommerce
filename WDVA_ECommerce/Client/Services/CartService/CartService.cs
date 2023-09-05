@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using WDVA_ECommerce.Client.Pages;
 using WDVA_ECommerce.Shared;
 
 namespace WDVA_ECommerce.Client.Services.CartService
@@ -7,83 +8,156 @@ namespace WDVA_ECommerce.Client.Services.CartService
 	{
 		private readonly ILocalStorageService _localStorage;
 		private readonly HttpClient _http;
+		private readonly AuthenticationStateProvider _authStateProvider;
 
-		public CartService(ILocalStorageService localStorage, HttpClient http)
+		public CartService(ILocalStorageService localStorage, HttpClient http, AuthenticationStateProvider authStateProvider)
 		{
 			_localStorage=localStorage;
 			_http=http;
+			_authStateProvider=authStateProvider;
 		}
 
 		public event Action OnChange;
 
 		public async Task AddToCart(CartItem cartItem)
 		{
-			var cart = await GetCart();
-
-			var sameItem = cart.Find(x => x.ProductId == cartItem.ProductId);
-			if (sameItem == null)
+			if (await IsUserAuthenticated())
 			{
-				cart.Add(cartItem);
+				await _http.PostAsJsonAsync("api/cart/add", cartItem);
 			}
-            else
-            {
-				sameItem.Quantity += cartItem.Quantity;
-            }
+			else
+			{
+				var cart = await GetCart();
 
-            await _localStorage.SetItemAsync("cart", cart);
+				var sameItem = cart.Find(x => x.ProductId == cartItem.ProductId);
+				if (sameItem == null)
+				{
+					cart.Add(cartItem);
+				}
+				else
+				{
+					sameItem.Quantity += cartItem.Quantity;
+				}
+
+				await _localStorage.SetItemAsync("cart", cart);
+			}
+
+
+
+			await GetCartItemsCount();
+		}
+
+		public async Task GetCartItemsCount()
+		{
+			if (await IsUserAuthenticated())
+			{
+				var result = await _http.GetFromJsonAsync<ServiceResponse<int>>("api/cart/count");
+				var count = result.Data;
+
+				await _localStorage.SetItemAsync<int>("cartItemsCount", count);
+			}
+			else
+			{
+				var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+				await _localStorage.SetItemAsync<int>("cartItemsCount", cart != null ? cart.Count : 0);
+			}
 
 			OnChange.Invoke();
 		}
 
-		public async Task<List<CartItem>> GetCartItems()
-		{
-			return await GetCart();
-		}
-
 		public async Task<List<CartProductDTO>> GetCartProducts()
 		{
-			var cartItems = await GetCart();
-			var response = await _http.PostAsJsonAsync("api/cart/products", cartItems);
-			var cartProducts = await response.Content.ReadFromJsonAsync<ServiceResponse<List<CartProductDTO>>>();
-			return cartProducts.Data;
+			if (await IsUserAuthenticated())
+			{
+				var response = await _http.GetFromJsonAsync<ServiceResponse<List<CartProductDTO>>>("api/cart");
+				return response.Data;
+			}
+			else
+			{
+				var cartItems = await GetCart();
+				if (cartItems == null)
+					return new List<CartProductDTO>();
+
+				var response = await _http.PostAsJsonAsync("api/cart/products", cartItems);
+				var cartProducts = await response.Content.ReadFromJsonAsync<ServiceResponse<List<CartProductDTO>>>();
+				return cartProducts.Data;
+			}
 		}
 
 		public async Task RemoveProductFromCart(int productId)
 		{
-			var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
-			if(cart == null)
+			if(await IsUserAuthenticated())
+			{
+				await _http.DeleteAsync($"api/cart/{productId}");
+			}
+			else
+			{
+				var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+				if (cart == null)
+				{
+					return;
+				}
+
+				var cartItem = cart.Find(x => x.ProductId == productId);
+
+				if (cartItem != null)
+				{
+					cart.Remove(cartItem);
+					await _localStorage.SetItemAsync("cart", cart);
+					
+				}
+			}
+
+
+		}
+
+		public async Task StoreCartItems(bool emptyLocalCart = false)
+		{
+			var localCart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+			if (localCart == null)
 			{
 				return;
 			}
 
-			var cartItem = cart.Find(x => x.ProductId == productId);
+			await _http.PostAsJsonAsync("api/cart", localCart);
 
-			if (cartItem != null)
+			if (emptyLocalCart)
 			{
-				cart.Remove(cartItem);
-				await _localStorage.SetItemAsync("cart", cart);
-				OnChange.Invoke();
+				await _localStorage.RemoveItemAsync("cart");
 			}
 
-	
 
 		}
 
 		public async Task UpdateQuantity(CartProductDTO product)
 		{
-			var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
-			if (cart == null)
+			if (await IsUserAuthenticated())
 			{
-				return;
+				var request = new CartItem
+				{
+					ProductId = product.ProductId,
+					Quantity = product.Quantity
+				};
+				await _http.PutAsJsonAsync("api/cart/update-quantity", request);
+			}
+			else
+			{
+				var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+				if (cart == null)
+				{
+					return;
+				}
+
+				var cartItem = cart.Find(x => x.ProductId == product.ProductId);
+
+				if (cartItem != null)
+				{
+					cartItem.Quantity = product.Quantity;
+					await _localStorage.SetItemAsync("cart", cart);
+				}
 			}
 
-			var cartItem = cart.Find(x => x.ProductId == product.ProductId);
 
-			if (cartItem != null)
-			{
-				cartItem.Quantity = product.Quantity;
-				await _localStorage.SetItemAsync("cart", cart);
-			}
 		}
 
 		private async Task<List<CartItem>> GetCart()
@@ -95,6 +169,11 @@ namespace WDVA_ECommerce.Client.Services.CartService
 			}
 
 			return cart;
+		}
+
+		private async Task<bool> IsUserAuthenticated()
+		{
+			return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
 		}
 	}
 }

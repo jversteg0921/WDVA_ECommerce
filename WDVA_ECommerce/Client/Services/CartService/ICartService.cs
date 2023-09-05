@@ -6,9 +6,10 @@ namespace WDVA_ECommerce.Client.Services.CartService
 	{
 		event Action OnChange;
 		Task AddToCart(CartItem cartItem);
-		Task<List<CartItem>> GetCartItems();
 		Task<List<CartProductDTO>> GetCartProducts();
 		Task RemoveProductFromCart(int productId);
 		Task UpdateQuantity(CartProductDTO product);
+		Task StoreCartItems(bool emptyLocalCart);
+		Task GetCartItemsCount();		
 	}
 }

@@ -19,7 +19,7 @@ else
 				</div>
 				<div class="name">
 					<h5><a href="/product/@product.ProductId">@product.Title</a></h5>
-					<input type="number" class="form-control input-quantity" value="@product.Quantity" @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, product))" min="1" />
+					<input type="number" class="form-control input-quantity" autocomplete="off" value="@product.Quantity" @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, product))" min="1" />
 					<button class="btn-delete" @onclick="@(() => RemoveProductFromCart(product.ProductId))">Delete</button>
 				</div>
 				<div class="cart-product-price">
@@ -51,14 +51,12 @@ else
 
 	private async Task LoadCart()
 	{
-		if ((await CartService.GetCartItems()).Count == 0)
+		await CartService.GetCartItemsCount();
+		cartProducts = await CartService.GetCartProducts();
+		if (cartProducts == null || cartProducts.Count == 0)
 		{
 			message = "Your cart is empty.";
 			cartProducts = new List<CartProductDTO>();
-		}
-		else
-		{
-			cartProducts = await CartService.GetCartProducts();
 		}
 	}
 
