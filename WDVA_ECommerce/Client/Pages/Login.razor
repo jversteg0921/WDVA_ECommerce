@@ -35,9 +35,7 @@
 	private UserLogin user = new UserLogin();
 	private string errorMessage = string.Empty;
 
-	[Parameter]
-	[SupplyParameterFromQuery(Name = "returnUrl")]
-	public string? returnUrl { get; set; } = string.Empty;
+	
 
 	private async Task HandleLogin()
 	{
@@ -49,7 +47,7 @@
 			await AuthenticationStateProvider.GetAuthenticationStateAsync();
 			await CartService.StoreCartItems(true);
 			await CartService.GetCartItemsCount();
-			NavigationManager.NavigateTo(returnUrl);
+			NavigationManager.NavigateTo("cart");
 		}
 		else
 		{

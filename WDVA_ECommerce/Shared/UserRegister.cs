@@ -15,6 +15,7 @@ namespace WDVA_ECommerce.Shared
 		public string Password { get; set; } = string.Empty;
 		[Compare("Password", ErrorMessage ="Passwords must match.")]
 		public string ConfirmPassword { get; set; } = string.Empty;
+		public PersonalInfo PersonalInfo { get; set; } = new PersonalInfo();
 
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WDVA_ECommerce.Server.Data;
 
@@ -11,9 +12,11 @@ using WDVA_ECommerce.Server.Data;
 namespace WDVA_ECommerce.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230905205018_Orders")]
+    partial class Orders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,7 +107,7 @@ namespace WDVA_ECommerce.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("WDVA_ECommerce.Shared.OrderItem", b =>
@@ -126,65 +129,6 @@ namespace WDVA_ECommerce.Server.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("WDVA_ECommerce.Shared.PersonalInfo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Zip")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("PersonalInfo");
                 });
 
             modelBuilder.Entity("WDVA_ECommerce.Shared.Product", b =>
@@ -362,15 +306,6 @@ namespace WDVA_ECommerce.Server.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WDVA_ECommerce.Shared.PersonalInfo", b =>
-                {
-                    b.HasOne("WDVA_ECommerce.Shared.User", null)
-                        .WithOne("PersonalInfo")
-                        .HasForeignKey("WDVA_ECommerce.Shared.PersonalInfo", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("WDVA_ECommerce.Shared.Product", b =>
                 {
                     b.HasOne("WDVA_ECommerce.Shared.Category", "Category")
@@ -385,12 +320,6 @@ namespace WDVA_ECommerce.Server.Migrations
             modelBuilder.Entity("WDVA_ECommerce.Shared.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("WDVA_ECommerce.Shared.User", b =>
-                {
-                    b.Navigation("PersonalInfo")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

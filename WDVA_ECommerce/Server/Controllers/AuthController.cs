@@ -10,24 +10,28 @@ namespace WDVA_ECommerce.Server.Controllers
 	public class AuthController : ControllerBase
 	{
 		private readonly IAuthService _authService;
+		private readonly IPersonalInfoService _personalInfoService;
 
-		public AuthController(IAuthService authService)
+		public AuthController(IAuthService authService, IPersonalInfoService personalInfoService)
 		{
 			_authService=authService;
+			_personalInfoService=personalInfoService;
 		}
 
 		[HttpPost("register")]
 		public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request)
 		{
+			
 			var response = await _authService.Register(new User
 			{
-				Email =request.Email
+				Email =request.Email,
+				PersonalInfo = request.PersonalInfo
 			}, request.Password);
 
 			if (!response.Success)
 			{
 				return BadRequest(response);
-			}
+			}	
 
 			return Ok(response);
 		}

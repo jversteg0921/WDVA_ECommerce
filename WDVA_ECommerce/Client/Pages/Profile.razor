@@ -3,8 +3,12 @@
 @attribute [Authorize]
 
 <AuthorizeView>
-	<h3>Logged in with <i>@context.User.Identity.Name</i></h3>
+	<h3>Logged in as <i>@context.User.Identity.Name</i></h3>
 </AuthorizeView>
+
+<h5>Personal Information</h5>
+<PersonalInfoForm />
+<p></p>
 
 <h5>Change Password</h5>
 

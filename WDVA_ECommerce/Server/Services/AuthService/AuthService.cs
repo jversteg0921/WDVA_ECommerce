@@ -1,7 +1,11 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Azure;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
+using System.Numerics;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace WDVA_ECommerce.Server.Services.AuthService
 {
@@ -9,11 +13,15 @@ namespace WDVA_ECommerce.Server.Services.AuthService
 	{
 		private readonly DataContext _context;
 		private readonly IConfiguration _configuration;
+		private readonly IHttpContextAccessor _httpContextAccessor;
 
-		public AuthService(DataContext context, IConfiguration configuration)
+		
+
+		public AuthService(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
 		{
 			_context=context;
 			_configuration=configuration;
+			_httpContextAccessor=httpContextAccessor;
 		}
 		//Logs user in by recreating password hash with given password and comparing to stored password hash.
 		public async Task<ServiceResponse<string>> Login(string email, string password)
@@ -58,13 +66,26 @@ namespace WDVA_ECommerce.Server.Services.AuthService
 			user.PasswordHash = passwordHash;
 			user.PasswordSalt = passwordSalt;
 
+			//Add user to db
 			_context.Users.Add(user);
+
+			//then associate additonal data with user
+			
+			user.PersonalInfo.UserId = user.Id;
+				
+			_context.PersonalInfo.Add(user.PersonalInfo);			
 			await _context.SaveChangesAsync();
+
+			
+
+
+
+
 
 			return new ServiceResponse<int>
 			{
 				Data = user.Id,
-				Message = "Registration successful!"
+				Message = "Registration successful!" 
 			};
 
 		}
@@ -78,6 +99,29 @@ namespace WDVA_ECommerce.Server.Services.AuthService
 			}
 			return false;
 		}
+
+		public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
+		{
+			var user = await _context.Users.FindAsync(userId);
+			if (user == null)
+			{
+				return new ServiceResponse<bool>
+				{
+					Success = false,
+					Message = "User not found."
+				};
+			}
+
+			CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+			user.PasswordHash = passwordHash;
+			user.PasswordSalt = passwordSalt;
+
+			await _context.SaveChangesAsync();
+
+			return new ServiceResponse<bool> { Data = true, Message = "Password has been updated." };
+		}
+
+		public int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 		private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
 		{
@@ -118,27 +162,6 @@ namespace WDVA_ECommerce.Server.Services.AuthService
 			var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
 			return jwt;
-		}
-
-		public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
-		{
-			var user = await _context.Users.FindAsync(userId);
-			if (user == null)
-			{
-				return new ServiceResponse<bool>
-				{
-					Success = false,
-					Message = "User not found."
-				};
-			}
-
-			CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
-			user.PasswordHash = passwordHash;
-			user.PasswordSalt = passwordSalt;
-
-			await _context.SaveChangesAsync();
-
-			return new ServiceResponse<bool> { Data = true, Message = "Password has been updated." };
 		}
 	}
 }

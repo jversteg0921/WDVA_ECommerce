@@ -34,6 +34,10 @@ a, .btn-link {
     color: red;
 }
 
+.container .validation-message{
+    color: white;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

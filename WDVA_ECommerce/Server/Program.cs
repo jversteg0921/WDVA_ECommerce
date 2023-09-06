@@ -5,6 +5,8 @@ global using WDVA_ECommerce.Server.Services.ProductService;
 global using WDVA_ECommerce.Server.Services.CategoryService;
 global using WDVA_ECommerce.Server.Services.CartService;
 global using WDVA_ECommerce.Server.Services.AuthService;
+global using WDVA_ECommerce.Server.Services.OrderService;
+global using WDVA_ECommerce.Server.Services.PersonalInfoService;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -24,10 +26,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IPersonalInfoService, PersonalInfoService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>

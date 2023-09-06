@@ -13,6 +13,9 @@ namespace WDVA_ECommerce.Server.Data
 			modelBuilder.Entity<CartItem>()
 				.HasKey(ci => new {ci.UserId, ci.ProductId});
 
+			modelBuilder.Entity<OrderItem>()
+				.HasKey(oi => new { oi.OrderId, oi.ProductId });
+
 			modelBuilder.Entity<Product>().HasData(
 					new Product
 					{
@@ -133,5 +136,8 @@ namespace WDVA_ECommerce.Server.Data
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<CartItem> CartItems { get; set; }
+		public DbSet<Order> Orders { get; set; }
+		public DbSet<OrderItem> OrderItems { get; set; }
+		public DbSet<PersonalInfo> PersonalInfo { get; set; }
 	}
 }
