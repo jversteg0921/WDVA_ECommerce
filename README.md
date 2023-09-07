@@ -13,7 +13,7 @@ Navigate to the directory where you want to clone the project.
 
 Run the following command to clone the GitHub repository:
 
-    git clone https://github.com/username/project-name.git
+    git clone https://github.com/username/project-name.git](https://github.com/jversteg0921/WDVA_ECommerce.git
 
 #------------------------------------------------------------#
 This project uses a Code-First Approach
