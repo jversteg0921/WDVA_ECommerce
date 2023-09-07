@@ -67,3 +67,5 @@ The application is a simple ECommerce demo site. You are able to view the featur
 Registration information can be entered manually or using the "Create User from RandomUser" button, which populates all the needed data through the 3rd party api at https://randomuser.me/
 
 Once a user is logged in, they can view their profile, where they can edit personal data, change their password or delete their account. They can also view their cart and "submit an order". They can also view all their previous orders.
+
+This project uses API Controllers. The Swagger documentation for the APIs can be viewed at https://localhost:{portnumber}/swagger/index.html
