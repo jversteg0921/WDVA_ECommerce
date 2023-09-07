@@ -5,6 +5,9 @@ using System.Security.Claims;
 
 namespace WDVA_ECommerce.Server.Controllers
 {
+	/// <summary>
+	/// Authorization and User Management
+	/// </summary>
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AuthController : ControllerBase
@@ -18,6 +21,12 @@ namespace WDVA_ECommerce.Server.Controllers
 			_personalInfoService=personalInfoService;
 		}
 
+
+		/// <summary>
+		/// Registers a new user to the site
+		/// </summary>
+		/// <param name="request"></param>
+		/// <returns></returns>
 		[HttpPost("register")]
 		public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request)
 		{
@@ -36,6 +45,11 @@ namespace WDVA_ECommerce.Server.Controllers
 			return Ok(response);
 		}
 
+		/// <summary>
+		/// Logs user into the system
+		/// </summary>
+		/// <param name="request"></param>
+		/// <returns></returns>
 		[HttpPost("login")]
 		public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
 		{
@@ -48,6 +62,11 @@ namespace WDVA_ECommerce.Server.Controllers
 			return Ok(response);
 		}
 
+		/// <summary>
+		/// Changes user password
+		/// </summary>
+		/// <param name="newPassword"></param>
+		/// <returns></returns>
 		[HttpPost("change-password"), Authorize]
 		public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string newPassword)
 		{
@@ -62,6 +81,10 @@ namespace WDVA_ECommerce.Server.Controllers
 			return Ok(response);
 		}
 
+		/// <summary>
+		/// Deletes user account
+		/// </summary>
+		/// <returns></returns>
 		[HttpDelete, Authorize]
 		public async Task<ActionResult<ServiceResponse<bool>>> DeleteAccount()
 		{			

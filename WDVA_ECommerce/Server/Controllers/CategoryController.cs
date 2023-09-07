@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WDVA_ECommerce.Server.Controllers
 {
+	/// <summary>
+	/// Category retrieval 
+	/// </summary>
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CategoryController : ControllerBase
@@ -14,6 +17,10 @@ namespace WDVA_ECommerce.Server.Controllers
 			_categoryService=categoryService;
 		}
 
+		/// <summary>
+		/// Gets list of categories
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		public async Task<ActionResult<ServiceResponse<List<Category>>>> GetCategories()
 		{
