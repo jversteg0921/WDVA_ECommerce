@@ -30,7 +30,7 @@ Navigate to the project's server directory.
 Run the following command to apply migrations and create the database:
 
     dotnet ef database update
-This command will apply any pending migrations and create the database based on your code-first model.
+This command will apply any pending migrations and create the database based on the code-first model.
 
 #------------------------------------------------------------#
 
