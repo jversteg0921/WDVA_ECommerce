@@ -7,5 +7,6 @@
 		Task<ServiceResponse<bool>> ChangePassword(UserChangePassword request);
 		Task<UserRegister> PopulateRandomUser();
 		Task<bool> IsUserAuthenticated();
+		Task DeleteAccount();
 	}
 }

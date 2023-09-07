@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using WDVA_ECommerce.Shared;
 
 namespace WDVA_ECommerce.Server.Services.AuthService
 {
@@ -121,6 +122,31 @@ namespace WDVA_ECommerce.Server.Services.AuthService
 			return new ServiceResponse<bool> { Data = true, Message = "Password has been updated." };
 		}
 
+		public async Task<ServiceResponse<bool>> DeleteAccount()
+		{
+			var userId = GetUserId();
+
+			var user = await _context.Users.FirstOrDefaultAsync(u=> u.Id == GetUserId());
+
+			if (user == null)
+			{
+				return new ServiceResponse<bool>
+				{
+					Data = false,
+					Success = false,
+					Message = "Could not find user. Please login."
+				};
+			}
+
+			_context.Users.Remove(user);
+			await _context.SaveChangesAsync();
+
+			return new ServiceResponse<bool>
+			{
+				Data = true
+			};
+		}
+
 		public int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 		private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -163,5 +189,7 @@ namespace WDVA_ECommerce.Server.Services.AuthService
 
 			return jwt;
 		}
+
+		
 	}
 }

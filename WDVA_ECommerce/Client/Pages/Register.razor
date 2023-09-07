@@ -5,7 +5,6 @@
 <PageTitle>Registration</PageTitle>
 
 <div class="container">
-	<h3>Registration</h3>
 	@if (!successfulRegistration)
 	{
 
@@ -60,7 +59,11 @@
 			</div>
 			<div class="mb-3">
 				<label for="gender">Gender</label>
-				<InputText id="gender" @bind-Value="user.PersonalInfo.Gender" class="form-control" />
+				<InputSelect id="gender" @bind-Value="user.PersonalInfo.Gender" class="form-control">
+					<option value=""></option>
+					<option value="male">Male</option>
+					<option value="female">Female</option>
+				</InputSelect>
 				<ValidationMessage For="@(() => user.PersonalInfo.Gender)" />
 			</div>
 

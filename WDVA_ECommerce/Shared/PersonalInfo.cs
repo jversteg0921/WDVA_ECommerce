@@ -24,7 +24,7 @@ namespace WDVA_ECommerce.Shared
         [Required]
         public string State { get; set; } = string.Empty;
         [Required]
-        [MaxLength(5)]
+        [MaxLength(5, ErrorMessage="Zip Code must be 5 digits.")]
 		[Range(0, Int64.MaxValue, ErrorMessage = "Zip code should only contain numbers")]
 		public string Zip { get; set; } = string.Empty;
 		public string Country { get; set; } = string.Empty;

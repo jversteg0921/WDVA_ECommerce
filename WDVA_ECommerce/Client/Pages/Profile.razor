@@ -1,5 +1,9 @@
 ﻿@page "/profile"
 @inject IAuthService AuthService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
 
 <AuthorizeView>
@@ -10,6 +14,7 @@
 <PersonalInfoForm />
 <p></p>
 
+<br />
 <h5>Change Password</h5>
 
 <EditForm Model="request" OnValidSubmit="ChangePassword">
@@ -28,15 +33,37 @@
 
 </EditForm>
 
+<div>
+	<br/>	
+	<h3>Danger Zone!</h3>
+	<hr />
+	<button class="btn btn-danger" @onclick="() => Delete()">Delete My Account</button>
+</div>
+
 <span>@message</span>
 
 @code {
 	UserChangePassword request = new UserChangePassword();
 	string message = string.Empty;
 
+	string deleteMessage = "Are you sure you want to delete your account?";
+
 	private async Task ChangePassword()
 	{
 		var result = await AuthService.ChangePassword(request);
 		message = result.Message;
+	}
+
+	private async Task Delete()
+	{
+		if (!await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete your account?"))
+			return;
+
+		await AuthService.DeleteAccount();
+		await LocalStorage.RemoveItemAsync("authToken");
+		await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		NavigationManager.NavigateTo("register");
+
+
 	}
 }

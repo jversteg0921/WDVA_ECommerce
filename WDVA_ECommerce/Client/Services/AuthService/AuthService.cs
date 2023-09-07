@@ -69,5 +69,14 @@ namespace WDVA_ECommerce.Client.Services.AuthService
 			var result = await _http.PostAsJsonAsync("api/auth/register", request);
 			return await result.Content.ReadFromJsonAsync<ServiceResponse<int>>();
 		}
+
+		public async Task DeleteAccount()
+		{
+			if (await IsUserAuthenticated())
+			{
+				await _http.DeleteAsync($"api/auth");
+			}
+
+		}
 	}
 }

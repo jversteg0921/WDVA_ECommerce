@@ -61,5 +61,18 @@ namespace WDVA_ECommerce.Server.Controllers
 			
 			return Ok(response);
 		}
+
+		[HttpDelete, Authorize]
+		public async Task<ActionResult<ServiceResponse<bool>>> DeleteAccount()
+		{			
+			var response = await _authService.DeleteAccount();
+
+			if (!response.Success)
+			{
+				return BadRequest(response);
+			}
+
+			return Ok(response);
+		}
 	}
 }
