@@ -16,6 +16,7 @@ Run the following command to clone the GitHub repository:
     git clone https://github.com/jversteg0921/WDVA_ECommerce.git
 
 #------------------------------------------------------------#
+
 This project uses a Code-First Approach
 
 You will need to apply migrations to create the database and seed initial data. You can do this using the Entity Framework Core CLI.
@@ -32,6 +33,7 @@ Run the following command to apply migrations and create the database:
 This command will apply any pending migrations and create the database based on your code-first model.
 
 #------------------------------------------------------------#
+
 Build and Run the Blazor WebAssembly Project
 Navigate to the project directory:
 
