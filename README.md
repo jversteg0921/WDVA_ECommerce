@@ -60,7 +60,7 @@ Open your web browser and navigate to https://localhost:{portnumber} to access t
 
 
 
-That's it! You should now have the .NET 6 Blazor WebAssembly project up and running with a code-first approach implemented. You can start exploring and using the application.
+That's it! You should now have the project up and running. You can start exploring and using the application.
 
 The application is a simple ECommerce demo site. You are able to view the featured products on the home page, explore additional products by category and add products to your cart. To view the cart you must register and login with the site.
 
